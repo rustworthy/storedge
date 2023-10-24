@@ -1,0 +1,45 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  Check:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node:
+          - 18
+          - 19
+          - 20
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    steps:
+      - name: === PROCURE NODE ${{ matrix.node }} ===
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: === CHECK OUT ===
+        uses: actions/checkout@v3
+
+      - name: === CACHE/RESTORE 3RD PARTY DEPS ===
+        id: cache-deps
+        uses: actions/cache@v3
+        env:
+          cache-name: node-modules
+        with:
+          path: node_modules/
+          key: ${{ env.cache-name }}-node-version-${{ matrix.node }}-os-${{ matrix.os }}-lockfile-hash-${{ hashFiles('**/package-lock.json') }}
+
+      - name: === INSTALL DEPS ===
+        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
+        run: npm i
+
+      - name: === LINT & TEST ===
+        run: npm run check

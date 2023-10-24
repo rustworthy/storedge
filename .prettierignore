@@ -1,0 +1,9 @@
+# Prettier defaults
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+
+# Ignore lock file
+.npmrc
+package-lock.json

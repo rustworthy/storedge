@@ -1,0 +1,51 @@
+{
+  "name": "npm-javascript-starter-template",
+  "version": "0.0.1",
+  "author": "Pavieł Michalkievič <paul.michelle.prod@gmail.com>",
+  "description": "NPM javascript package starter template with reasonable (almost unopinionated) defaults",
+  "license": "MIT",
+  "keywords": [
+    "npm",
+    "package",
+    "javascript",
+    "Node.js",
+    "template",
+    "starter",
+    "boilerplate",
+    "skeleton"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rustworthy/npm-package-starter"
+  },
+  "bugs": {
+    "url": "https://github.com/rustworthy/npm-package-starter/issues",
+    "email": "paul.michelle.prod@gmail.com"
+  },
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": ["index.d.ts"],
+  "engines": {
+    "node": "18 || 19 || 20"
+  },
+  "readmeFilename": "README.md",
+  "scripts": {
+    "fmt": "prettier --write \"**/*.js\" \"**/*.json\" \"**/*.md\" \".*rc\" \"**/*.yml\"",
+    "lint": "eslint . && prettier -c \"**/*.js\" \"**/*.json\" \"**/*.md\" \".*rc\" \"**/*.yml\"",
+    "types": "tsc -p tsconfig.json",
+    "test": "node ./index.test.js",
+    "check": "npm run lint && npm run types && npm run test",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.7",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "husky": "^8.0.3",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  }
+}

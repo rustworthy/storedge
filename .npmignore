@@ -1,0 +1,12 @@
+.github
+.husky
+.editorconfig
+.eslintrc.js
+.gitattributes
+.gitignore
+.prettierrc
+CODE_OF_CONDUCT.md
+commitlint.config.js
+CONTRIBUTING.md
+*.test.js
+tsconfig.json
