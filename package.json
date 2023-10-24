@@ -1,25 +1,27 @@
 {
-  "name": "npm-javascript-starter-template",
+  "name": "storedge",
   "version": "0.0.1",
   "author": "Pavieł Michalkievič <paul.michelle.prod@gmail.com>",
-  "description": "NPM javascript package starter template with reasonable (almost unopinionated) defaults",
+  "description": "KV & Durable objects for serverless environments with Redis (Upstash HTTP API) and BSON serialization",
   "license": "MIT",
   "keywords": [
-    "npm",
-    "package",
-    "javascript",
-    "Node.js",
-    "template",
-    "starter",
-    "boilerplate",
-    "skeleton"
+    "redis",
+    "upstash",
+    "cache",
+    "BSON",
+    "serialization",
+    "durable",
+    "serverless",
+    "lambda",
+    "edge",
+    "workers"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/rustworthy/npm-package-starter"
+    "url": "git+https://github.com/rustworthy/storedge.git"
   },
   "bugs": {
-    "url": "https://github.com/rustworthy/npm-package-starter/issues",
+    "url": "https://github.com/rustworthy/storedge/issues",
     "email": "paul.michelle.prod@gmail.com"
   },
   "main": "index.js",

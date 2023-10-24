@@ -2,4 +2,4 @@
 
 ## [Unreleased][unreleased]
 
-- Node project setup
+- Node project setup from starter template
