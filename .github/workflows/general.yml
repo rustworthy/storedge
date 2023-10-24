@@ -41,5 +41,19 @@ jobs:
         if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
         run: npm i
 
+      - name: === PREPARE ENV FILE  ===
+        if: ${{ matrix.os != 'windows-latest' }}
+        run: |
+          cat <<EOT >> .env
+          UPSTASH_REDIS_REST_URL=${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN=${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          EOT
+
+      - name: === PREPARE ENV FILE (WINDOWS) ===
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          echo "UPSTASH_REDIS_REST_URL=${{ secrets.UPSTASH_REDIS_REST_URL }}" | Out-File -FilePath '.env' -Encoding utf8 -Append
+          echo "UPSTASH_REDIS_REST_TOKEN=${{ secrets.UPSTASH_REDIS_REST_TOKEN }}" | Out-File -FilePath '.env' -Encoding utf8 -Append
+
       - name: === LINT & TEST ===
         run: npm run check

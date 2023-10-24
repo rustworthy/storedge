@@ -14,7 +14,9 @@ module.exports = {
   settings: {
     'import/resolver': {
       typescript: true,
-      node: true,
+      node: {
+        extensions: ['.js', 'ts'],
+      },
     },
   },
   ignorePatterns: ['.eslintrc.js'],

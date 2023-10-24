@@ -9,10 +9,17 @@ const StorEdge = require('./storedge.js');
 
 describe('StorEdge client connection', () => {
   it('should fail if env file not found', async () => {
-    const client = new StorEdge({ envFile: 'afasf2324e12rqc' });
+    const envFile = 'aff54a.secret.vault';
+    const client = new StorEdge({ envFile });
     const error = await client.connect();
-    const noSuchFile = `ENOENT: no such file or directory, open 'afasf2324e12rqc'`;
-    assert.equal(error.message, noSuchFile);
+    const noSuchFile = 'ENOENT: no such file or directory';
+    // encountered this issue in CI on windows platform,
+    // specifically with Node.js 20 on windows-latest:
+    // expected: "ENOENT: no such file or directory, open 'afasf232__&&csdsr123#4e12rqc'"
+    // actual: "ENOENT: no such file or directory, open 'D:\\a\\storedge\\storedge\\afasf232__&&csdsr123#4e12rqc'"
+    // so going with a more generic assertion:
+    assert(error.message.startsWith(noSuchFile));
+    assert(error.message.includes(envFile));
   });
 
   it('should fail if invalid endpoint', async () => {
@@ -20,11 +27,9 @@ describe('StorEdge client connection', () => {
       delete process.env.UPSTASH_REDIS_REST_URL;
       delete process.env.UPSTASH_REDIS_REST_TOKEN;
     });
-    const envFile = 'afasf232__&&csdsr123#4e12rqc';
-    const client = new StorEdge({ envFile });
+    const client = new StorEdge({ envFile: '.env.sample' });
     const error = await client.connect();
-    const msg = `ENOENT: no such file or directory, open '${envFile}'`;
-    assert.equal(error.message, msg);
+    assert.equal(error.message, 'fetch failed');
   });
 
   it('succeeds if valid creds in dot-env file', async () => {
