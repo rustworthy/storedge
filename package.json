@@ -1,6 +1,6 @@
 {
   "name": "storedge",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "author": "Pavieł Michalkievič <paul.michelle.prod@gmail.com>",
   "description": "KV & Durable objects for serverless environments with Redis (Upstash HTTP API) and BSON serialization",
   "license": "MIT",

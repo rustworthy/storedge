@@ -37,6 +37,27 @@ const Durables = (store) => {
 };
 
 class StorEdge {
+  static with(opts = { config: null, envFile: null }) {
+    return new StorEdge(opts);
+  }
+
+  static build(opts = { config: null, envFile: null }) {
+    const storedge = new StorEdge(opts);
+    return storedge.build();
+  }
+
+  static async buildWithPing(opts = { config: null, envFile: null }) {
+    const storedge = new StorEdge(opts);
+    const result = await storedge.buildWithPing();
+    return result;
+  }
+
+  constructor(opts = { config: null, envFile: null }) {
+    this.opts = opts;
+    this.KV = null;
+    this.Durables = null;
+  }
+
   static parseOpts(opts) {
     if (opts.config) return { fromEnv: false, config: opts.config };
     const fromEnvFile = typeof opts.envFile === 'string';
@@ -47,25 +68,35 @@ class StorEdge {
     return { fromEnv: true, config: null };
   }
 
-  async connect() {
-    let redis, reply;
+  configure(client) {
+    this.KV = client;
+    this.Durables = Durables(client);
+    return this;
+  }
+
+  /** @returns {[?Error, StorEdge]} */
+  build() {
+    let redis;
     try {
       const { fromEnv, config } = StorEdge.parseOpts(this.opts);
       redis = fromEnv ? Redis.fromEnv() : new Redis(config);
-      reply = await redis.ping();
     } catch (error) {
-      return new Error(error.message);
+      return [new Error(error.message), null];
     }
-    if (reply !== 'PONG') return new Error('Redis connection failed');
-    this.KV = redis;
-    this.Durables = Durables(redis);
-    return null;
+    this.configure(redis);
+    return [null, this];
   }
 
-  constructor(opts = { config: null, envFile: null }) {
-    this.opts = opts;
-    this.KV = null;
-    this.Durables = null;
+  async buildWithPing() {
+    const [error, store] = this.build();
+    if (error) return [error, null];
+    let reply;
+    try {
+      reply = await store.KV.ping();
+    } catch (error) {
+      return [new Error(error.message), null];
+    }
+    return reply === 'PONG' ? [null, store] : [new Error('ping failed'), null];
   }
 }
 
