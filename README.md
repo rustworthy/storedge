@@ -63,9 +63,7 @@ your creds are just fine, you can go with:
 
 ```js
 const storedge = require('storedge');
-const [error, store] = await storedge
-  .with({ envFile: '.env.local' })
-  .buildWithPing();
+const [error, store] = await storedge.with({ envFile: '.env.local' }).buildWithPing();
 ```
 
 Finally, if you want to pass redis deployment url and token directly, you can do so with:
@@ -74,9 +72,7 @@ Finally, if you want to pass redis deployment url and token directly, you can do
 const storedge = require('storedge');
 
 // with literals...
-const [error, store] = await storedge
-  .with({ config: { url: 'https://***.io', token: 'AX95***NGY=' } })
-  .build();
+const [error, store] = await storedge.with({ config: { url: 'https://***.io', token: 'AX95***NGY=' } }).build();
 
 // ...or with refs to env vars:
 const [error, store] = await storedge
